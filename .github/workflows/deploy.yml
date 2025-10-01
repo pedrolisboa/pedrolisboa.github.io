@@ -24,7 +24,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'' # Or the Ruby version you prefer
+          ruby-version: '3.2' # Or the Ruby version you prefer
           bundler-cache: true # This will run "bundle install" automatically
       - name: Build with Jekyll
         run: bundle exec jekyll build
