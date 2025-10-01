@@ -2,10 +2,30 @@ html {
     scroll-behavior: smooth;
 }
 
+:root {
+    /* --- Light Mode Color Palette --- */
+    --bg-color: #E9ECEF;       /* Changed from #F8F9FA */
+    --sidebar-bg: #E9ECEF;    /* Changed from #F8F9FA */
+    --content-bg: #F8F9FA;
+    --header-bg: #F0F2F5;
+    --text-primary: #212529;
+    --text-secondary: #555;
+    --accent-color: #34568B;
+    --border-color: #dee2e6;
+    --shadow-color: rgba(0,0,0,0.05);
+}
+
+/* --- Centered Desktop Layout --- */
+.centered-container {
+    max-width: 1100px; /* Reduced width to bring the menu and content closer */
+    margin: 0 auto;
+    padding: 40px 0; /* Add some vertical space at the top and bottom */
+}
+
 /* --- Global Styles --- */
 body {
-    background-color: #F8F9FA;
-    color: #212529;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
     font-family: 'Lora', serif;
     line-height: 1.6;
     margin: 0;
@@ -15,21 +35,36 @@ body {
 /* --- LAYOUT STYLES (NEW) --- */
 .layout-wrapper {
     display: flex;
+    align-items: flex-start; /* Aligns items to the top */
+    gap: 0px; /* Adds a gap between the menu and content */
 }
 
+/* --- MODIFIED Side Menu for Desktop --- */
 .side-menu {
-    width: 220px;
-    position: fixed; /* Fixes the menu to the side */
-    top: 0;
-    left: 0;
-    height: 100vh; /* Full height of the viewport */
-    background-color: #e9ecef; /* A slightly darker background for contrast */
+    width: 600px;
+    position: sticky; /* THIS IS THE KEY CHANGE */
+    top: 60px;      /* Tells it to stick 40px from the top */
+    height: calc(100vh - 80px); /* Makes the menu almost full-height */
+    
+    /* Restore the styles for a visible column */
+    background-color: #f8f9fa; /* A clean, light background */
     padding: 30px;
-    box-sizing: border-box; /* Ensures padding is included in the width */
+    box-sizing: border-box;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar-subtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 0px;
+    margin-bottom: 50px;
+    line-height: 0.0;
 }
 
 .main-content {
-    margin-left: 220px; /* Must be the same as the side-menu width */
+    margin-left: 10px; /* Must be the same as the side-menu width */
     padding: 20px 60px;
     max-width: 800px;
 }
@@ -37,7 +72,7 @@ body {
 /* --- SIDE MENU STYLING (NEW) --- */
 .side-menu h2 {
     font-size: 1.4rem;
-    color: #34568B;
+    color: var(--accent-color);
     margin-top: 0;
 }
 
@@ -50,7 +85,7 @@ body {
 .side-menu li a {
     display: block;
     padding: 10px 0;
-    color: #495057;
+    color: var(--text-secondary);
     font-family: 'Montserrat', sans-serif;
     font-size: 1rem;
     text-decoration: none;
@@ -67,9 +102,9 @@ header {
     align-items: center;
     padding: 30px;
     margin-bottom: 50px;
-    background-color: #F0F2F5; /* The box color */
-    border-radius: 8px;       /* Rounds the corners of the box */
-    box-shadow: 0 5px 7px rgba(0,0,0,0.05); /* Adds the subtle shadow */
+    background-color: var(--header-bg);
+    border-radius: 8px;
+    box-shadow: 0 5px 7px var(--shadow-color);
 }
 
 .profile-photo {
@@ -78,20 +113,20 @@ header {
     border-radius: 50%;
     object-fit: cover;
     margin-right: 35px;
-    border: 4px solid #FFFFFF;
-    box-shadow: 0 0 0 2px #e9ecef;
+    border: 4px solid var(--content-bg);
+    box-shadow: 0 0 0 2px var(--bg-color);
 }
 
 .header-text h1 {
     font-size: 2.4rem;
     margin-bottom: 5px;
     line-height: 1.2;
-    color: #212529;
+    color: var(--text-primary);
 }
 
 .header-text .subtitle {
     font-size: 1.2rem;
-    color: #555;
+    color: var(--text-secondary);
     margin-top: 0;
 }
 
@@ -113,7 +148,7 @@ header {
 
 /* --- Accordion Styles --- */
 .accordion {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .accordion-header {
@@ -126,7 +161,7 @@ header {
     font-family: 'Montserrat', sans-serif;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #495057;
+    color: var(--text-secondary);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -139,7 +174,7 @@ header {
 .plus-icon {
     font-size: 1.5rem;
     font-weight: 400;
-    color: #6c757d;
+    color: var(--text-secondary);
 }
 
 .accordion-content {
@@ -161,12 +196,152 @@ header {
 .job-header-title strong {
     display: block; /* Puts the title on its own line */
     font-size: 1.1rem;
-    color: #343a40;
+    color: var(--text-primary);
 }
 
 .job-header-title span {
     font-size: 0.9rem;
     font-weight: 400;
     font-style: italic;
-    color: #6c757d;
+    color: var(--text-secondary);
+}
+
+/* --- Hide Hamburger on Desktop --- */
+.hamburger-menu {
+    display: none;
+}
+
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 800px) {
+    /* Make the top bar sticky */
+    .side-menu {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        height: 60px; /* A fixed, shorter height */
+        background-color: var(--bg-color);
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    /* --- Hamburger Menu Button --- */
+    .hamburger-menu {
+        display: block; /* Show the button on mobile */
+        background: none;
+        border: none;
+        font-size: 2rem;
+        color: var(--text-primary);
+        cursor: pointer;
+    }
+
+    /* --- Slide-out Menu Panel --- */
+    .menu-content-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px; /* Width of the slide-out panel */
+        height: 100vh; /* Full screen height */
+        background-color: var(--bg-color);
+        padding: 20px;
+        transform: translateX(-100%); /* Hide it off-screen to the left */
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 2px 0 5px var(--shadow-color);
+    }
+    
+    /* The "is-open" class will be toggled by JavaScript */
+    .menu-content-wrapper.is-open {
+        transform: translateX(0); /* Slide it into view */
+    }
+
+    /* Style the links inside the slide-out menu */
+    .menu-content-wrapper h2 {
+        display: block; /* Show the name inside the slide-out menu */
+    }
+    .menu-content-wrapper ul {
+        display: block; /* Stack links vertically */
+        text-align: left;
+    }
+    .menu-content-wrapper li a {
+        padding: 15px 0;
+    }
+
+    /* The rest of your mobile styles */
+    .layout-wrapper { flex-direction: column; }
+    .main-content { margin-left: 0; padding: 20px; }
+    header { flex-direction: column; text-align: center; }
+    .profile-photo { margin-right: 0; margin-bottom: 20px; }
+}
+
+
+body.dark-mode {
+    /* Define colors for Dark Mode */
+    --bg-color: #121212;
+    --sidebar-bg: #1a1a1a;
+    --content-bg: #1E1E1E;
+    --header-bg: #2a2a2a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-color: #58A6FF; /* A brighter blue for better contrast */
+    --border-color: #333333;
+    --shadow-color: rgba(0,0,0,0.2);
+}
+
+/* --- STEP 2: APPLY VARIABLES TO YOUR EXISTING ELEMENTS --- */
+/* Update your existing styles to use these variables */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.side-menu {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+}
+
+.main-content {
+    background-color: var(--content-bg);
+}
+
+header {
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.header-text h1, .accordion-header, h2 {
+    color: var(--text-primary);
+}
+
+.header-text .subtitle, .job-header-title span {
+    color: var(--text-secondary);
+}
+
+a, .side-menu li a:hover {
+    color: var(--accent-color);
+}
+
+.accordion {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- STEP 3: ADD STYLISH HOVER EFFECTS --- */
+.side-menu li a {
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+    border-radius: 10px;
+}
+
+.side-menu li a:hover {
+    background-color: var(--header-bg); /* Use the subtle card background on hover */
+    color: var(--accent-color);
+}
+
+.accordion-header {
+    transition: background-color 0.2s ease-in-out;
+}
+
+.accordion-header:hover {
+    background-color: var(--header-bg);
 }

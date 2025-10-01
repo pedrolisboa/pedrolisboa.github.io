@@ -13,19 +13,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="centered-container"> <div class="layout-wrapper">
     <div class="layout-wrapper">
-        <nav class="side-menu">
-            <h2>Pedro Lisboa</h2>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#publications">Publications</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+         <nav class="side-menu">
+            <button id="menu-toggle" class="hamburger-menu" aria-label="Open navigation menu">
+                &#9776; </button>
+            
+            <div class="menu-content-wrapper">
+                <h2>Pedro Lisboa</h2>
+                <p class="sidebar-subtitle">Research Scientist</p> <ul>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#publications">Publications</a></li>
+                    <li><a href="#education">Education</a></li>
+                    <li><a href="#education">Teaching</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
         </nav>
-
         <div class="main-content">
             <header>
                 <img src="me.png" alt="Profile photo of Pedro Lisboa" class="profile-photo", width="150", height="150">
@@ -249,17 +256,50 @@
                 
                 <section id="education">
                     <h2>Education</h2>
-                    <div class="education-entry">
-                        <h3>M.Sc. Electrical Engineering</h3>
-                        <p class="institution">Federal University of Rio de Janeiro (UFRJ) | 2024-2026</p>
-                        <p><em>Dissertation theme: Development and Application of Deep Differential Logic Gates.</em></p>
+
+                    <div class="accordion">
+                        <button class="accordion-header">
+                            <div class="job-header-title">
+                                <strong>M.Sc. Electrical Engineering</strong>
+                                <span>Federal University of Rio de Janeiro (UFRJ) | 2024-2026</span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p><em>Dissertation theme: Development and Application of Deep Differential Logic Gates.</em></p>
+                        </div>
                     </div>
-                    <div class="education-entry">
-                        <h3>B.Sc. Electronics and Computer Engineering</h3>
-                        <p class="institution">Federal University of Rio de Janeiro (UFRJ) | 2015-2023</p>
-                        <p><em>Capstone project: Online filtering for low signal-to-noise ratio particles assisted by high-energy calorimetry with fine segmentation.</em></p>
+
+                    <div class="accordion">
+                        <button class="accordion-header">
+                            <div class="job-header-title">
+                                <strong>B.Sc. Electronics and Computer Engineering</strong>
+                                <span>Federal University of Rio de Janeiro (UFRJ) | 2015-2023</span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p><em>Capstone project: Online filtering for low signal-to-noise ratio particles assisted by high-energy calorimetry with fine segmentation.</em></p>
+                        </div>
+                    </div>
+
+                </section>
+                <section id="teaching">
+                    <h2>Teaching</h2>
+                    <div class="accordion">
+                        <button class="accordion-header">
+                            <div class="job-header-title">
+                                <strong>Teaching Assistant</strong>
+                                <span>Artificial Intelligence MBA | COPPE/UFRJ (2025-Present) </span>
+                            </div>
+                            <span class="plus-icon">+</span>
+                        </button>
+                        <div class="accordion-content">
+                            <p>Co-instructed core concepts of artificial intelligence for an MBA program. Led technical review sessions and graded assignments, covering topics like supervised/unsupervised learning, computer vision, and natural language processing.</p>
+                        </div>
                     </div>
                 </section>
+
             </main>
             
             <footer id="contact">
@@ -271,31 +311,58 @@
                     <a href="[Lattes Platform Academic Profile]" target="_blank">Lattes Platform</a>
                 </p>
             </footer>
-        </div> </div> 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const accordions = document.querySelectorAll(".accordion-header");
+        </div> 
+    </div> 
+    </div> 
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // --- Hamburger Menu Logic (Improved) ---
+                const menuToggle = document.getElementById('menu-toggle');
+                const menuWrapper = document.querySelector('.menu-content-wrapper');
 
-            accordions.forEach(accordion => {
-                accordion.addEventListener("click", function() {
-                    // Toggle active class for styling
-                    this.classList.toggle("active");
+                // 1. Toggle the menu when the hamburger icon is clicked
+                menuToggle.addEventListener('click', function(event) {
+                    // Stop the click from propagating to the document
+                    event.stopPropagation();
+                    menuWrapper.classList.toggle('is-open');
+                });
 
-                    const content = this.nextElementSibling;
-                    const icon = this.querySelector('.plus-icon');
+                // 2. Close the menu if a user clicks anywhere outside of it
+                document.addEventListener('click', function(event) {
+                    const isClickInsideMenu = menuWrapper.contains(event.target);
+                    const isClickOnToggleButton = menuToggle.contains(event.target);
 
-                    if (content.style.maxHeight) {
-                        // Collapse the accordion
-                        content.style.maxHeight = null;
-                        icon.textContent = "+";
-                    } else {
-                        // Expand the accordion
-                        content.style.maxHeight = content.scrollHeight + "px";
-                        icon.textContent = "-";
+                    if (menuWrapper.classList.contains('is-open') && !isClickInsideMenu && !isClickOnToggleButton) {
+                        menuWrapper.classList.remove('is-open');
                     }
                 });
+
+                // 3. Close the menu when a link inside it is clicked
+                const menuLinks = menuWrapper.querySelectorAll('a');
+                menuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        menuWrapper.classList.remove('is-open');
+                    });
+                });
+
+                // --- Accordion Logic (Existing) ---
+                const accordions = document.querySelectorAll(".accordion-header");
+                accordions.forEach(accordion => {
+                    accordion.addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        const content = this.nextElementSibling;
+                        const icon = this.querySelector('.plus-icon');
+
+                        if (content.style.maxHeight) {
+                            content.style.maxHeight = null;
+                            icon.textContent = "+";
+                        } else {
+                            content.style.maxHeight = content.scrollHeight + "px";
+                            icon.textContent = "-";
+                        }
+                    });
+                });
             });
-        });
-    </script>   
+        </script>
     </body>
 </html>
