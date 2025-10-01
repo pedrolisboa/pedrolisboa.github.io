@@ -28,6 +28,13 @@ jobs:
           bundler-cache: true # This will run "bundle install" automatically
       - name: Build with Jekyll
         run: bundle exec jekyll build
+
+      # --- NEW DEBUGGING STEP ---
+      # This step will show us the contents of the built site folder.
+      - name: Verify build output
+        run: ls -R _site
+      # --- END NEW DEBUGGING STEP ---
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
 
